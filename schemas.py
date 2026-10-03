@@ -22,6 +22,11 @@ class PredictionResponse(BaseModel):
 
 class HealthResponse(BaseModel):
     status: str
+    
+class VersionResponse(BaseModel):
+    api_version: str
+    model_version: str
+    build: str
 
 class ModelInfoResponse(BaseModel):
     model_name: str
