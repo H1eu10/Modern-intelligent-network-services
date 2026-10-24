@@ -1,0 +1,1645 @@
+[
+  {
+    "test": "01 health",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "status": "ok"
+    },
+    "headers": {
+      "X-Request-ID": "460287a0-ed85-46b9-8b53-35484ec614f6",
+      "X-Process-Time": "0.004631"
+    }
+  },
+  {
+    "test": "02 valid predict",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "request_id": "qa-001",
+      "farm_id": "FARM-001",
+      "risk_score": 0.1,
+      "risk_level": "low",
+      "recommendation": "Стандартное рассмотрение",
+      "model_version": "1.0"
+    },
+    "headers": {
+      "X-Request-ID": "qa-001",
+      "X-Process-Time": "0.035079"
+    }
+  },
+  {
+    "test": "03 negative area",
+    "expected": [
+      422
+    ],
+    "actual": 422,
+    "result": "PASS",
+    "body": {
+      "detail": [
+        {
+          "type": "greater_than",
+          "loc": [
+            "body",
+            "area_ha"
+          ],
+          "msg": "Input should be greater than 0",
+          "input": -100,
+          "ctx": {
+            "gt": 0.0
+          }
+        }
+      ],
+      "request_id": "59c890a9-2e88-4946-8197-edac48e9ff21"
+    },
+    "headers": {
+      "X-Request-ID": "59c890a9-2e88-4946-8197-edac48e9ff21",
+      "X-Process-Time": "0.002746"
+    }
+  },
+  {
+    "test": "04 unknown region",
+    "expected": [
+      400
+    ],
+    "actual": 400,
+    "result": "PASS",
+    "body": {
+      "detail": "Unknown region: Unknown. Allowed regions: ['Krasnodar', 'Rostov', 'Stavropol']",
+      "request_id": "4d3ff084-9b6e-4d3c-a815-f68b5a12ef42"
+    },
+    "headers": {
+      "X-Request-ID": "4d3ff084-9b6e-4d3c-a815-f68b5a12ef42",
+      "X-Process-Time": "0.00103"
+    }
+  },
+  {
+    "test": "05 existing id",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "request_id": "qa-001",
+      "farm_id": "FARM-001",
+      "risk_score": 0.1,
+      "risk_level": "low",
+      "recommendation": "Стандартное рассмотрение",
+      "model_version": "1.0"
+    },
+    "headers": {
+      "X-Request-ID": "98900bbc-a538-40cf-90da-d5b76881c44f",
+      "X-Process-Time": "0.01572"
+    }
+  },
+  {
+    "test": "06 unknown id",
+    "expected": [
+      404
+    ],
+    "actual": 404,
+    "result": "PASS",
+    "body": {
+      "detail": "Prediction not found",
+      "request_id": "9f86e0f2-0161-459f-a608-d289abffd595"
+    },
+    "headers": {
+      "X-Request-ID": "9f86e0f2-0161-459f-a608-d289abffd595",
+      "X-Process-Time": "0.004499"
+    }
+  },
+  {
+    "test": "07 valid batch",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "request_id": "4b03182a-7cdd-4b47-be32-92ae068b82b1",
+      "batch_size": 2,
+      "processing_time_ms": 38.01,
+      "items": [
+        {
+          "farm_id": "FARM-001",
+          "risk_score": 0.1,
+          "risk_level": "low",
+          "recommendation": "Стандартное рассмотрение",
+          "model_version": "1.0"
+        },
+        {
+          "farm_id": "FARM-002",
+          "risk_score": 0.1,
+          "risk_level": "low",
+          "recommendation": "Стандартное рассмотрение",
+          "model_version": "1.0"
+        }
+      ]
+    },
+    "headers": {
+      "X-Request-ID": "4b03182a-7cdd-4b47-be32-92ae068b82b1",
+      "X-Process-Time": "0.041829"
+    }
+  },
+  {
+    "test": "08 oversized batch",
+    "expected": [
+      422
+    ],
+    "actual": 422,
+    "result": "PASS",
+    "body": {
+      "detail": [
+        {
+          "type": "too_long",
+          "loc": [
+            "body",
+            "items"
+          ],
+          "msg": "List should have at most 8 items after validation, not 9",
+          "input": [
+            {
+              "farm_id": "FARM-001",
+              "region": "Krasnodar",
+              "crop_type": "wheat",
+              "area_ha": 100,
+              "temperature_avg": 20,
+              "precipitation_mm": 200,
+              "payment_delay_days": 10,
+              "previous_defaults": 0,
+              "debt": 10000
+            },
+            {
+              "farm_id": "FARM-001",
+              "region": "Krasnodar",
+              "crop_type": "wheat",
+              "area_ha": 100,
+              "temperature_avg": 20,
+              "precipitation_mm": 200,
+              "payment_delay_days": 10,
+              "previous_defaults": 0,
+              "debt": 10000
+            },
+            {
+              "farm_id": "FARM-001",
+              "region": "Krasnodar",
+              "crop_type": "wheat",
+              "area_ha": 100,
+              "temperature_avg": 20,
+              "precipitation_mm": 200,
+              "payment_delay_days": 10,
+              "previous_defaults": 0,
+              "debt": 10000
+            },
+            {
+              "farm_id": "FARM-001",
+              "region": "Krasnodar",
+              "crop_type": "wheat",
+              "area_ha": 100,
+              "temperature_avg": 20,
+              "precipitation_mm": 200,
+              "payment_delay_days": 10,
+              "previous_defaults": 0,
+              "debt": 10000
+            },
+            {
+              "farm_id": "FARM-001",
+              "region": "Krasnodar",
+              "crop_type": "wheat",
+              "area_ha": 100,
+              "temperature_avg": 20,
+              "precipitation_mm": 200,
+              "payment_delay_days": 10,
+              "previous_defaults": 0,
+              "debt": 10000
+            },
+            {
+              "farm_id": "FARM-001",
+              "region": "Krasnodar",
+              "crop_type": "wheat",
+              "area_ha": 100,
+              "temperature_avg": 20,
+              "precipitation_mm": 200,
+              "payment_delay_days": 10,
+              "previous_defaults": 0,
+              "debt": 10000
+            },
+            {
+              "farm_id": "FARM-001",
+              "region": "Krasnodar",
+              "crop_type": "wheat",
+              "area_ha": 100,
+              "temperature_avg": 20,
+              "precipitation_mm": 200,
+              "payment_delay_days": 10,
+              "previous_defaults": 0,
+              "debt": 10000
+            },
+            {
+              "farm_id": "FARM-001",
+              "region": "Krasnodar",
+              "crop_type": "wheat",
+              "area_ha": 100,
+              "temperature_avg": 20,
+              "precipitation_mm": 200,
+              "payment_delay_days": 10,
+              "previous_defaults": 0,
+              "debt": 10000
+            },
+            {
+              "farm_id": "FARM-001",
+              "region": "Krasnodar",
+              "crop_type": "wheat",
+              "area_ha": 100,
+              "temperature_avg": 20,
+              "precipitation_mm": 200,
+              "payment_delay_days": 10,
+              "previous_defaults": 0,
+              "debt": 10000
+            }
+          ],
+          "ctx": {
+            "field_type": "List",
+            "max_length": 8,
+            "actual_length": 9
+          }
+        }
+      ],
+      "request_id": "e4e45abc-8caa-475b-b423-1233cdae2bb7"
+    },
+    "headers": {
+      "X-Request-ID": "e4e45abc-8caa-475b-b423-1233cdae2bb7",
+      "X-Process-Time": "0.002099"
+    }
+  },
+  {
+    "test": "09 queued prediction",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "request_id": "504dbe49-1348-4484-9503-19d23be95760",
+      "farm_id": "FARM-001",
+      "risk_score": 0.1,
+      "risk_level": "low",
+      "recommendation": "Стандартное рассмотрение",
+      "model_version": "1.0"
+    },
+    "headers": {
+      "X-Request-ID": "504dbe49-1348-4484-9503-19d23be95760",
+      "X-Process-Time": "0.088133"
+    }
+  },
+  {
+    "test": "10 full queue",
+    "expected": [
+      429
+    ],
+    "actual": 429,
+    "result": "PASS",
+    "body": {
+      "detail": "Inference queue is full. Try again later.",
+      "request_id": "7d4dfb52-4989-4c6c-af22-c107ca9ec58d"
+    },
+    "headers": {
+      "X-Request-ID": "7d4dfb52-4989-4c6c-af22-c107ca9ec58d",
+      "X-Process-Time": "0.0024"
+    }
+  },
+  {
+    "test": "11 weekday pagination",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "data": [
+        {
+          "request_id": "504dbe49-1348-4484-9503-19d23be95760",
+          "farm_id": "FARM-001",
+          "risk_score": 0.1,
+          "risk_level": "low",
+          "recommendation": "Стандартное рассмотрение",
+          "model_version": "1.0"
+        },
+        {
+          "request_id": "4b03182a-7cdd-4b47-be32-92ae068b82b1",
+          "farm_id": "FARM-002",
+          "risk_score": 0.1,
+          "risk_level": "low",
+          "recommendation": "Стандартное рассмотрение",
+          "model_version": "1.0"
+        },
+        {
+          "request_id": "4b03182a-7cdd-4b47-be32-92ae068b82b1",
+          "farm_id": "FARM-001",
+          "risk_score": 0.1,
+          "risk_level": "low",
+          "recommendation": "Стандартное рассмотрение",
+          "model_version": "1.0"
+        },
+        {
+          "request_id": "qa-001",
+          "farm_id": "FARM-001",
+          "risk_score": 0.1,
+          "risk_level": "low",
+          "recommendation": "Стандартное рассмотрение",
+          "model_version": "1.0"
+        }
+      ],
+      "meta": {
+        "weekday": "saturday",
+        "current_page": 1,
+        "per_page": 5,
+        "total_pages": 1,
+        "total_items": 4,
+        "next_page": null,
+        "prev_page": null
+      }
+    },
+    "headers": {
+      "X-Request-ID": "72cd9929-8d0a-4f09-bcc5-8bb56f842d38",
+      "X-Process-Time": "0.006076"
+    }
+  },
+  {
+    "test": "12 page -1",
+    "expected": [
+      422
+    ],
+    "actual": 422,
+    "result": "PASS",
+    "body": {
+      "detail": [
+        {
+          "type": "greater_than_equal",
+          "loc": [
+            "query",
+            "page"
+          ],
+          "msg": "Input should be greater than or equal to 1",
+          "input": "-1",
+          "ctx": {
+            "ge": 1
+          }
+        }
+      ],
+      "request_id": "14eccf27-d978-4ae3-8cb6-a78df362a7da"
+    },
+    "headers": {
+      "X-Request-ID": "14eccf27-d978-4ae3-8cb6-a78df362a7da",
+      "X-Process-Time": "0.000921"
+    }
+  },
+  {
+    "test": "13 invalid weekday",
+    "expected": [
+      400
+    ],
+    "actual": 400,
+    "result": "PASS",
+    "body": {
+      "detail": "weekday must be one of: monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+      "request_id": "10b82e26-8dce-4d00-a7d4-a6f771ddd31e"
+    },
+    "headers": {
+      "X-Request-ID": "10b82e26-8dce-4d00-a7d4-a6f771ddd31e",
+      "X-Process-Time": "0.000949"
+    }
+  },
+  {
+    "test": "14 llm/chat mocked",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "request_id": "37ae2885-b03a-4f85-b3c9-07dbcbdd2f10",
+      "requested_model": "auto",
+      "returned_model": "auto",
+      "answer": "Проверка пройдена: результат модели не изменён.",
+      "reasoning": null,
+      "finish_reason": "stop",
+      "usage": {
+        "total_tokens": 42
+      },
+      "latency_ms": 0.19
+    },
+    "headers": {
+      "X-Request-ID": "37ae2885-b03a-4f85-b3c9-07dbcbdd2f10",
+      "X-Process-Time": "0.002376"
+    }
+  },
+  {
+    "test": "15 llm unavailable mocked",
+    "expected": [
+      503
+    ],
+    "actual": 503,
+    "result": "PASS",
+    "body": {
+      "detail": "LLM service is unavailable",
+      "request_id": "255fa080-e3f7-40c1-a42e-a8d9517f396d"
+    },
+    "headers": {
+      "X-Request-ID": "255fa080-e3f7-40c1-a42e-a8d9517f396d",
+      "X-Process-Time": "0.003358"
+    }
+  },
+  {
+    "test": "16 predict-with-llm mocked",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "prediction": {
+        "request_id": "7bc6101e-1e42-4d8f-916f-da004c2d8615",
+        "farm_id": "FARM-001",
+        "risk_score": 0.1,
+        "risk_level": "low",
+        "recommendation": "Стандартное рассмотрение",
+        "model_version": "1.0"
+      },
+      "llm": {
+        "request_id": "7bc6101e-1e42-4d8f-916f-da004c2d8615",
+        "requested_model": "auto",
+        "returned_model": "auto",
+        "answer": "Проверка пройдена: результат модели не изменён.",
+        "reasoning": null,
+        "finish_reason": "stop",
+        "usage": {
+          "total_tokens": 42
+        },
+        "latency_ms": 0.22
+      }
+    },
+    "headers": {
+      "X-Request-ID": "7bc6101e-1e42-4d8f-916f-da004c2d8615",
+      "X-Process-Time": "0.035767"
+    }
+  },
+  {
+    "test": "17 queue status",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "completed_batches": 1,
+      "processed_items": 1,
+      "last_batch_size": 1,
+      "failed_batches": 0,
+      "active_batch_size": 0,
+      "queue_size": 0,
+      "queue_max_size": 100,
+      "max_batch_size": 8,
+      "max_batch_wait_ms": 50,
+      "inference_timeout_seconds": 2.0
+    },
+    "headers": {
+      "X-Request-ID": "4c696b9c-c256-4f9c-9882-1776b60988e3",
+      "X-Process-Time": "0.001233"
+    }
+  },
+  {
+    "test": "18 OpenAPI",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "openapi": "3.1.0",
+      "info": {
+        "title": "Agro Scoring API",
+        "description": "Agro Scoring API: request_id, SQLite/aiosqlite, single inference, batching и интеграция с Vireonix LLM.",
+        "version": "4.0.0"
+      },
+      "paths": {
+        "/health": {
+          "get": {
+            "summary": "Проверка состояния API",
+            "operationId": "health_health_get",
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HealthResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/model-info": {
+          "get": {
+            "summary": "Информация о модели",
+            "operationId": "model_info_model_info_get",
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ModelInfoResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/llm/chat": {
+          "post": {
+            "summary": "Прямой учебный запрос к Vireonix LLM",
+            "description": "Отправляет prompt в OpenAI-совместимый Vireonix API. API-ключ и Authorization header не используются. Не передавайте реальные конфиденциальные данные.",
+            "operationId": "llm_chat_llm_chat_post",
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/LLMChatRequest"
+                  }
+                }
+              },
+              "required": true
+            },
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/LLMChatResponse"
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Validation Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HTTPValidationError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/predict-with-llm": {
+          "post": {
+            "summary": "Агроскоринг с текстовым объяснением LLM",
+            "description": "Сначала выполняет детерминированный агроскоринг и сохраняет результат в SQLite. Затем Vireonix LLM формирует только текстовое объяснение результата. LLM не определяет risk_score.",
+            "operationId": "predict_with_llm_predict_with_llm_post",
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/FarmRequest"
+                  }
+                }
+              },
+              "required": true
+            },
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/PredictWithLLMResponse"
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Validation Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HTTPValidationError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/predict": {
+          "post": {
+            "summary": "Одиночный inference",
+            "description": "Один HTTP-request -> один inference -> одна запись SQLite.",
+            "operationId": "predict_predict_post",
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/FarmRequest"
+                  }
+                }
+              },
+              "required": true
+            },
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/PredictionResponse"
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Validation Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HTTPValidationError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/batch-predict": {
+          "post": {
+            "summary": "Явный пакетный inference",
+            "description": "Клиент сам передает несколько хозяйств одним HTTP-запросом.\n\nВсе результаты batch сохраняются в SQLite одной транзакцией:\nexecutemany() + один commit().",
+            "operationId": "batch_predict_batch_predict_post",
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BatchRequest"
+                  }
+                }
+              },
+              "required": true
+            },
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/BatchPredictionResponse"
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Validation Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HTTPValidationError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/predict-queued": {
+          "post": {
+            "summary": "Inference через очередь и dynamic batching",
+            "description": "С точки зрения клиента это одиночный HTTP-request.\n\nСервер помещает его в asyncio.Queue и может объединить\nнесколько запросов в один вызов модели.\n\nПосле получения score каждый запрос отдельно сохраняет\nсвой результат в SQLite.",
+            "operationId": "predict_queued_predict_queued_post",
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/FarmRequest"
+                  }
+                }
+              },
+              "required": true
+            },
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/PredictionResponse"
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Validation Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HTTPValidationError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/queue-status": {
+          "get": {
+            "summary": "Состояние очереди и настройки batching",
+            "operationId": "queue_status_queue_status_get",
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/predictions": {
+          "get": {
+            "summary": "Получить историю прогнозов из SQLite",
+            "operationId": "get_predictions_predictions_get",
+            "parameters": [
+              {
+                "name": "limit",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "maximum": 100,
+                  "minimum": 1,
+                  "default": 10,
+                  "title": "Limit"
+                }
+              },
+              {
+                "name": "risk_level",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "low, medium или high",
+                  "title": "Risk Level"
+                },
+                "description": "low, medium или high"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PredictionResponse"
+                      },
+                      "title": "Response Get Predictions Predictions Get"
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Validation Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HTTPValidationError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/requests/{request_id}/predictions": {
+          "get": {
+            "summary": "Все прогнозы, созданные одним HTTP request",
+            "description": "Для single / queued обычно возвращает один элемент.\nДля explicit batch может вернуть несколько элементов.",
+            "operationId": "get_request_predictions_requests__request_id__predictions_get",
+            "parameters": [
+              {
+                "name": "request_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "title": "Request Id"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PredictionResponse"
+                      },
+                      "title": "Response Get Request Predictions Requests  Request Id  Predictions Get"
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Validation Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HTTPValidationError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/predictions/by-weekday": {
+          "get": {
+            "summary": "Прогнозы по дню недели с пагинацией",
+            "description": "Пример:\n    GET /predictions/by-weekday?weekday=monday&page=1&per_page=5\n\nВернет первые 5 записей для понедельника.",
+            "operationId": "get_predictions_by_weekday_predictions_by_weekday_get",
+            "parameters": [
+              {
+                "name": "weekday",
+                "in": "query",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "description": "День недели: monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+                  "title": "Weekday"
+                },
+                "description": "День недели: monday, tuesday, wednesday, thursday, friday, saturday, sunday"
+              },
+              {
+                "name": "page",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Номер страницы",
+                  "default": 1,
+                  "title": "Page"
+                },
+                "description": "Номер страницы"
+              },
+              {
+                "name": "per_page",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "maximum": 100,
+                  "minimum": 1,
+                  "description": "Количество записей на странице",
+                  "default": 5,
+                  "title": "Per Page"
+                },
+                "description": "Количество записей на странице"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/PaginatedPredictionsResponse"
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Validation Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HTTPValidationError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/demo/seed-weekdays": {
+          "post": {
+            "summary": "Создать демонстрационные predictions за разные дни",
+            "description": "Создает данные за последние 21 день, чтобы можно было\nпротестировать выборку по дням недели и пагинацию.",
+            "operationId": "seed_demo_weekdays_demo_seed_weekdays_post",
+            "parameters": [
+              {
+                "name": "count",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "maximum": 1000,
+                  "minimum": 7,
+                  "description": "Количество демонстрационных записей",
+                  "default": 70,
+                  "title": "Count"
+                },
+                "description": "Количество демонстрационных записей"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {}
+                  }
+                }
+              },
+              "422": {
+                "description": "Validation Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HTTPValidationError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/predictions/{request_id}": {
+          "get": {
+            "summary": "Получить одиночный прогноз по request_id",
+            "description": "Сохраняет обратную совместимость старого API.\n\nЕсли request_id относится к batch и в БД несколько строк,\nвозвращается 409 и предлагается использовать endpoint:\n/requests/{request_id}/predictions",
+            "operationId": "get_prediction_predictions__request_id__get",
+            "parameters": [
+              {
+                "name": "request_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "title": "Request Id"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/PredictionResponse"
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Validation Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HTTPValidationError"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/": {
+          "get": {
+            "summary": "Root",
+            "operationId": "root__get",
+            "responses": {
+              "200": {
+                "description": "Successful Response",
+                "content": {
+                  "application/json": {
+                    "schema": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "BatchItemResponse": {
+            "properties": {
+              "farm_id": {
+                "type": "string",
+                "title": "Farm Id"
+              },
+              "risk_score": {
+                "type": "number",
+                "title": "Risk Score"
+              },
+              "risk_level": {
+                "type": "string",
+                "title": "Risk Level"
+              },
+              "recommendation": {
+                "type": "string",
+                "title": "Recommendation"
+              },
+              "model_version": {
+                "type": "string",
+                "title": "Model Version"
+              }
+            },
+            "type": "object",
+            "required": [
+              "farm_id",
+              "risk_score",
+              "risk_level",
+              "recommendation",
+              "model_version"
+            ],
+            "title": "BatchItemResponse"
+          },
+          "BatchPredictionResponse": {
+            "properties": {
+              "request_id": {
+                "type": "string",
+                "title": "Request Id"
+              },
+              "batch_size": {
+                "type": "integer",
+                "title": "Batch Size"
+              },
+              "processing_time_ms": {
+                "type": "number",
+                "title": "Processing Time Ms"
+              },
+              "items": {
+                "items": {
+                  "$ref": "#/components/schemas/BatchItemResponse"
+                },
+                "type": "array",
+                "title": "Items"
+              }
+            },
+            "type": "object",
+            "required": [
+              "request_id",
+              "batch_size",
+              "processing_time_ms",
+              "items"
+            ],
+            "title": "BatchPredictionResponse"
+          },
+          "BatchRequest": {
+            "properties": {
+              "items": {
+                "items": {
+                  "$ref": "#/components/schemas/FarmRequest"
+                },
+                "type": "array",
+                "maxItems": 8,
+                "minItems": 1,
+                "title": "Items",
+                "description": "Список объектов для пакетного инференса"
+              }
+            },
+            "type": "object",
+            "required": [
+              "items"
+            ],
+            "title": "BatchRequest",
+            "description": "Явный batch, который клиент отправляет одним HTTP-запросом."
+          },
+          "FarmRequest": {
+            "properties": {
+              "farm_id": {
+                "type": "string",
+                "minLength": 1,
+                "title": "Farm Id",
+                "description": "Идентификатор хозяйства"
+              },
+              "region": {
+                "type": "string",
+                "minLength": 1,
+                "title": "Region",
+                "description": "Регион"
+              },
+              "crop_type": {
+                "type": "string",
+                "minLength": 1,
+                "title": "Crop Type",
+                "description": "Основная сельскохозяйственная культура"
+              },
+              "area_ha": {
+                "type": "number",
+                "exclusiveMinimum": 0.0,
+                "title": "Area Ha",
+                "description": "Площадь посевов, га"
+              },
+              "temperature_avg": {
+                "type": "number",
+                "maximum": 60.0,
+                "minimum": -60.0,
+                "title": "Temperature Avg",
+                "description": "Средняя температура, °C"
+              },
+              "precipitation_mm": {
+                "type": "number",
+                "minimum": 0.0,
+                "title": "Precipitation Mm",
+                "description": "Количество осадков, мм"
+              },
+              "payment_delay_days": {
+                "type": "integer",
+                "minimum": 0.0,
+                "title": "Payment Delay Days",
+                "description": "Количество дней просрочки платежа"
+              },
+              "previous_defaults": {
+                "type": "integer",
+                "minimum": 0.0,
+                "title": "Previous Defaults",
+                "description": "Количество предыдущих дефолтов"
+              },
+              "debt": {
+                "type": "number",
+                "minimum": 0.0,
+                "title": "Debt",
+                "description": "Текущая задолженность"
+              }
+            },
+            "type": "object",
+            "required": [
+              "farm_id",
+              "region",
+              "crop_type",
+              "area_ha",
+              "temperature_avg",
+              "precipitation_mm",
+              "payment_delay_days",
+              "previous_defaults",
+              "debt"
+            ],
+            "title": "FarmRequest",
+            "description": "Входные данные для оценки риска одного хозяйства."
+          },
+          "HTTPValidationError": {
+            "properties": {
+              "detail": {
+                "items": {
+                  "$ref": "#/components/schemas/ValidationError"
+                },
+                "type": "array",
+                "title": "Detail"
+              }
+            },
+            "type": "object",
+            "title": "HTTPValidationError"
+          },
+          "HealthResponse": {
+            "properties": {
+              "status": {
+                "type": "string",
+                "title": "Status"
+              }
+            },
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "title": "HealthResponse"
+          },
+          "LLMChatRequest": {
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "maxLength": 5000,
+                "minLength": 1,
+                "title": "Prompt",
+                "description": "Текст запроса к LLM"
+              },
+              "model": {
+                "type": "string",
+                "pattern": "^auto$",
+                "title": "Model",
+                "description": "Модель Vireonix. Для демо используется auto",
+                "default": "auto"
+              },
+              "temperature": {
+                "type": "number",
+                "maximum": 2.0,
+                "minimum": 0.0,
+                "title": "Temperature",
+                "default": 0.3
+              },
+              "max_tokens": {
+                "type": "integer",
+                "maximum": 2000.0,
+                "minimum": 1.0,
+                "title": "Max Tokens",
+                "default": 300
+              }
+            },
+            "type": "object",
+            "required": [
+              "prompt"
+            ],
+            "title": "LLMChatRequest",
+            "description": "Запрос к внешней LLM.\n\nНе передавайте сюда реальные\nконфиденциальные банковские или персональные данные."
+          },
+          "LLMChatResponse": {
+            "properties": {
+              "request_id": {
+                "type": "string",
+                "title": "Request Id"
+              },
+              "requested_model": {
+                "type": "string",
+                "title": "Requested Model"
+              },
+              "returned_model": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Returned Model"
+              },
+              "answer": {
+                "type": "string",
+                "title": "Answer"
+              },
+              "reasoning": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Reasoning"
+              },
+              "finish_reason": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Finish Reason"
+              },
+              "usage": {
+                "anyOf": [
+                  {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Usage"
+              },
+              "latency_ms": {
+                "type": "number",
+                "title": "Latency Ms"
+              }
+            },
+            "type": "object",
+            "required": [
+              "request_id",
+              "requested_model",
+              "returned_model",
+              "answer",
+              "latency_ms"
+            ],
+            "title": "LLMChatResponse"
+          },
+          "ModelInfoResponse": {
+            "properties": {
+              "model_name": {
+                "type": "string",
+                "title": "Model Name"
+              },
+              "model_version": {
+                "type": "string",
+                "title": "Model Version"
+              },
+              "model_type": {
+                "type": "string",
+                "title": "Model Type"
+              },
+              "status": {
+                "type": "string",
+                "title": "Status"
+              }
+            },
+            "type": "object",
+            "required": [
+              "model_name",
+              "model_version",
+              "model_type",
+              "status"
+            ],
+            "title": "ModelInfoResponse"
+          },
+          "PaginatedPredictionsResponse": {
+            "properties": {
+              "data": {
+                "items": {
+                  "$ref": "#/components/schemas/PredictionResponse"
+                },
+                "type": "array",
+                "title": "Data"
+              },
+              "meta": {
+                "$ref": "#/components/schemas/PaginationMeta"
+              }
+            },
+            "type": "object",
+            "required": [
+              "data",
+              "meta"
+            ],
+            "title": "PaginatedPredictionsResponse"
+          },
+          "PaginationMeta": {
+            "properties": {
+              "weekday": {
+                "type": "string",
+                "title": "Weekday"
+              },
+              "current_page": {
+                "type": "integer",
+                "title": "Current Page"
+              },
+              "per_page": {
+                "type": "integer",
+                "title": "Per Page"
+              },
+              "total_pages": {
+                "type": "integer",
+                "title": "Total Pages"
+              },
+              "total_items": {
+                "type": "integer",
+                "title": "Total Items"
+              },
+              "next_page": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Next Page"
+              },
+              "prev_page": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Prev Page"
+              }
+            },
+            "type": "object",
+            "required": [
+              "weekday",
+              "current_page",
+              "per_page",
+              "total_pages",
+              "total_items",
+              "next_page",
+              "prev_page"
+            ],
+            "title": "PaginationMeta"
+          },
+          "PredictWithLLMResponse": {
+            "properties": {
+              "prediction": {
+                "$ref": "#/components/schemas/PredictionResponse"
+              },
+              "llm": {
+                "$ref": "#/components/schemas/LLMChatResponse"
+              }
+            },
+            "type": "object",
+            "required": [
+              "prediction",
+              "llm"
+            ],
+            "title": "PredictWithLLMResponse",
+            "description": "Комбинированный ответ:\n1. детерминированный результат агроскоринга;\n2. текстовое объяснение, сформированное LLM."
+          },
+          "PredictionResponse": {
+            "properties": {
+              "request_id": {
+                "type": "string",
+                "title": "Request Id"
+              },
+              "farm_id": {
+                "type": "string",
+                "title": "Farm Id"
+              },
+              "risk_score": {
+                "type": "number",
+                "title": "Risk Score"
+              },
+              "risk_level": {
+                "type": "string",
+                "title": "Risk Level"
+              },
+              "recommendation": {
+                "type": "string",
+                "title": "Recommendation"
+              },
+              "model_version": {
+                "type": "string",
+                "title": "Model Version"
+              }
+            },
+            "type": "object",
+            "required": [
+              "request_id",
+              "farm_id",
+              "risk_score",
+              "risk_level",
+              "recommendation",
+              "model_version"
+            ],
+            "title": "PredictionResponse",
+            "description": "Ответ для одного прогноза."
+          },
+          "ValidationError": {
+            "properties": {
+              "loc": {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "integer"
+                    }
+                  ]
+                },
+                "type": "array",
+                "title": "Location"
+              },
+              "msg": {
+                "type": "string",
+                "title": "Message"
+              },
+              "type": {
+                "type": "string",
+                "title": "Error Type"
+              },
+              "input": {
+                "title": "Input"
+              },
+              "ctx": {
+                "type": "object",
+                "title": "Context"
+              }
+            },
+            "type": "object",
+            "required": [
+              "loc",
+              "msg",
+              "type"
+            ],
+            "title": "ValidationError"
+          }
+        }
+      }
+    },
+    "headers": {
+      "X-Request-ID": "eef774c7-3e78-460a-adbf-794d1ea32c77",
+      "X-Process-Time": "0.086285"
+    }
+  },
+  {
+    "test": "19 seed weekdays",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "status": "ok",
+      "created": 70,
+      "message": "Demo predictions created. Use /predictions/by-weekday for pagination."
+    },
+    "headers": {
+      "X-Request-ID": "43e240cf-64cd-4e9e-a387-9eb87b41e8f3",
+      "X-Process-Time": "0.017288"
+    }
+  },
+  {
+    "test": "20 weekday seeded",
+    "expected": [
+      200
+    ],
+    "actual": 200,
+    "result": "PASS",
+    "body": {
+      "data": [
+        {
+          "request_id": "e9a1ad23-5c6b-450d-9de5-fabfe7860b2c",
+          "farm_id": "DEMO-069",
+          "risk_score": 0.6,
+          "risk_level": "medium",
+          "recommendation": "Требуется дополнительная проверка",
+          "model_version": "1.0"
+        },
+        {
+          "request_id": "e470be06-e6bb-4805-b191-30a61c9d79c1",
+          "farm_id": "DEMO-062",
+          "risk_score": 0.8,
+          "risk_level": "high",
+          "recommendation": "Высокий риск. Требуется ручное рассмотрение",
+          "model_version": "1.0"
+        },
+        {
+          "request_id": "ddc9bcd2-c5e7-4171-b6ef-17a4eb7a6cdc",
+          "farm_id": "DEMO-055",
+          "risk_score": 0.1,
+          "risk_level": "low",
+          "recommendation": "Стандартное рассмотрение",
+          "model_version": "1.0"
+        },
+        {
+          "request_id": "b326e220-97b8-474d-b357-1c7a564af18a",
+          "farm_id": "DEMO-048",
+          "risk_score": 0.3,
+          "risk_level": "medium",
+          "recommendation": "Требуется дополнительная проверка",
+          "model_version": "1.0"
+        },
+        {
+          "request_id": "5ae5bdc6-5f61-4cab-9630-cc6537e48f51",
+          "farm_id": "DEMO-041",
+          "risk_score": 0.5,
+          "risk_level": "medium",
+          "recommendation": "Требуется дополнительная проверка",
+          "model_version": "1.0"
+        }
+      ],
+      "meta": {
+        "weekday": "monday",
+        "current_page": 1,
+        "per_page": 5,
+        "total_pages": 2,
+        "total_items": 10,
+        "next_page": "http://testserver/predictions/by-weekday?weekday=monday&page=2&per_page=5",
+        "prev_page": null
+      }
+    },
+    "headers": {
+      "X-Request-ID": "54c77687-7141-426b-9863-4537fc32ec9f",
+      "X-Process-Time": "0.006798"
+    }
+  }
+]
